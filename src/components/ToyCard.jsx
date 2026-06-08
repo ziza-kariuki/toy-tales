@@ -1,10 +1,27 @@
 import React from "react";
 
-function ToyCard({toy , onDeleteToy}) {
-const { name, image } = toy;
-const toyLikes = toy.likes !== undefined ? toy.likes : toy.Likes;
+function ToyCard({ toy, onDeleteToy }) {
+  const { name, image } = toy;
+  const currentLikes = toy.likes !== undefined ? toy.likes : toy.Likes;
 
-const handleDeleteClick = () => {
+  const handleLikeClick = () => {
+    const newLikes = currentLikes + 1;
+    const patchBody = toy.likes !== undefined ? { likes: newLikes } : { Likes: newLikes };
+    fetch(`http://localhost:4000/toys/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(patchBody),
+    })
+      .then((res) => res.json())
+      .then((updatedToy) => {
+        onLikeToy(updatedToy);
+      });
+  };
+
+
+  const handleDeleteClick = () => {
     fetch(`http://localhost:4000/toys/${id}`, {
       method: "DELETE",
     })
@@ -19,14 +36,14 @@ const handleDeleteClick = () => {
 
   return (
     <div className="card" data-testid="toy-card">
-      <h2>{"" /* Toy's Name */}</h2>
+      <h2>{name}</h2>
       <img
         src={image}
         alt={name}
         className="toy-avatar"
       />
       <p>{toyLikes} Likes </p>
-      <button className="like-btn">Like {"<3"}</button>
+      <button className="like-btn" onClick={handleLikeClick}>Like {"<3"}</button>
       <button className="del-btn" onClick={handleDeleteClick}>Donate to GoodWill</button>
     </div>
   );
