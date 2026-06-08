@@ -1,6 +1,6 @@
 import React from "react";
 
-function ToyCard({ toy, onDeleteToy }) {
+function ToyCard({ toy, onDeleteToy ,onLikeToy}) {
   const { name, image } = toy;
   const currentLikes = toy.likes !== undefined ? toy.likes : toy.Likes;
 
@@ -42,7 +42,7 @@ function ToyCard({ toy, onDeleteToy }) {
         alt={name}
         className="toy-avatar"
       />
-      <p>{toyLikes} Likes </p>
+      <p>{toy.likes}</p>
       <button className="like-btn" onClick={handleLikeClick}>Like {"<3"}</button>
       <button className="del-btn" onClick={handleDeleteClick}>Donate to GoodWill</button>
     </div>
